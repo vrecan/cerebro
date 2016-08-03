@@ -17,7 +17,7 @@ func (s *Stack) Pop() (n interface{}) {
 //Len is the length of th stack
 func (s *Stack) Len() int { return len(*s) }
 
-//Clear builds a new stack and replaces the current one
+//Reset builds a new stack and replaces the current one
 //which will allow the gc to clean up the old interface{} memory
 func (s *Stack) Reset() {
 	*s = Stack{}
