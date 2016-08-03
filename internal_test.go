@@ -2,7 +2,7 @@ package cerebro
 
 import (
 	log "github.com/cihub/seelog"
-	SPEW "github.com/davecgh/go-spew/spew"
+	// SPEW "github.com/davecgh/go-spew/spew"
 	. "github.com/smartystreets/goconvey/convey"
 	"github.com/vrecan/cerebro/graph"
 	"testing"
