@@ -1,0 +1,10 @@
+language: go
+
+go:
+   - 1.6
+
+install:
+- go get golang.org/x/tools/cmd/cover
+- export PATH=$PATH:$HOME/gopath/bin
+- go install $(go list github.com/vrecan/cerebro/./... | grep -v /vendor/)
+script: go test $(go list ./... | grep -v /vendor/) -cover --race -timeout=300s 
