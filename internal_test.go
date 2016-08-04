@@ -11,8 +11,6 @@ import (
 func TestDepthFirst(t *testing.T) {
 	defer log.Flush()
 	Convey("Add items with edges validate edges, multiple layers of relations", t, func() {
-		//Don't add nodes at the same level for this test because
-		//they are stored in maps and will rearange your results randomly at the same level
 		g := NewDirectedGraph(1)
 		g.SetEdge(Edge{F: Node("1"), T: Node("10"), W: 1})
 		g.SetEdge(Edge{F: Node("1"), T: Node("11"), W: 1})
@@ -67,8 +65,6 @@ func TestDepthFirst(t *testing.T) {
 	})
 
 	Convey("Add items with edges validate edges, 5th layer", t, func() {
-		//Don't add nodes at the same level for this test because
-		//they are stored in maps and will rearange your results randomly at the same level
 		g := NewDirectedGraph(1)
 		g.SetEdge(Edge{F: Node("1"), T: Node("10"), W: 1})
 		g.SetEdge(Edge{F: Node("1"), T: Node("11"), W: 1})
