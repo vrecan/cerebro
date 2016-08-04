@@ -38,6 +38,16 @@ func TestDirectedGraph(t *testing.T) {
 
 	})
 
+	Convey("Remove node that doesn't exist", t, func() {
+		g := NewDirectedGraph(1)
+		g.SetEdge(Edge{F: Node("1"), T: Node("2"), W: 1})
+		g.SetEdge(Edge{F: Node("2"), T: Node("3"), W: 1})
+		g.SetEdge(Edge{F: Node("3"), T: Node("4"), W: 1})
+		g.RemoveNode(Node("not_here"))
+		So(len(g.Nodes()), ShouldEqual, 4)
+
+	})
+
 	Convey("Add and remove edges validate edges", t, func() {
 		g := NewDirectedGraph(1)
 		g.SetEdge(Edge{F: Node("1"), T: Node("2"), W: 1})
@@ -65,6 +75,86 @@ func TestDirectedGraph(t *testing.T) {
 		So(g.Has(Node("1")), ShouldBeTrue)
 		So(g.Has(Node("5")), ShouldBeFalse)
 
+	})
+
+	Convey("Add edges grab single edge", t, func() {
+		g := NewDirectedGraph(1)
+		g.SetEdge(Edge{F: Node("1"), T: Node("2"), W: 1})
+		g.SetEdge(Edge{F: Node("2"), T: Node("3"), W: 1})
+		g.SetEdge(Edge{F: Node("3"), T: Node("4"), W: 1})
+		So(len(g.Edges()), ShouldEqual, 3)
+		e, ok := g.Edge(Node("2"), Node("3"))
+		So(ok, ShouldBeTrue)
+		So(e, ShouldResemble, Edge{F: Node("2"), T: Node("3"), W: 1})
+	})
+
+	Convey("Add edges grab invalid edge", t, func() {
+		g := NewDirectedGraph(1)
+		g.SetEdge(Edge{F: Node("1"), T: Node("2"), W: 1})
+		g.SetEdge(Edge{F: Node("2"), T: Node("3"), W: 1})
+		g.SetEdge(Edge{F: Node("3"), T: Node("4"), W: 1})
+		So(len(g.Edges()), ShouldEqual, 3)
+		_, ok := g.Edge(Node("not"), Node("here"))
+		So(ok, ShouldBeFalse)
+	})
+	Convey("get weight of a node in the graph", t, func() {
+		g := NewDirectedGraph(1)
+		g.SetEdge(Edge{F: Node("1"), T: Node("2"), W: 1})
+		g.SetEdge(Edge{F: Node("2"), T: Node("3"), W: 1})
+		g.SetEdge(Edge{F: Node("3"), T: Node("4"), W: 1})
+		So(len(g.Edges()), ShouldEqual, 3)
+		w, ok := g.Weight(Node("1"), Node("2"))
+		So(ok, ShouldBeTrue)
+		So(w, ShouldEqual, 1)
+	})
+
+	Convey("get weight of invalid edge", t, func() {
+		g := NewDirectedGraph(1)
+		g.SetEdge(Edge{F: Node("1"), T: Node("2"), W: 1})
+		g.SetEdge(Edge{F: Node("2"), T: Node("3"), W: 1})
+		g.SetEdge(Edge{F: Node("3"), T: Node("4"), W: 1})
+		So(len(g.Edges()), ShouldEqual, 3)
+		_, ok := g.Weight(Node("not"), Node("here"))
+		So(ok, ShouldBeFalse)
+	})
+
+	Convey("get degree of node relationships", t, func() {
+		g := NewDirectedGraph(1)
+		g.SetEdge(Edge{F: Node("1"), T: Node("2"), W: 1})
+		g.SetEdge(Edge{F: Node("1"), T: Node("3"), W: 1})
+		g.SetEdge(Edge{F: Node("1"), T: Node("4"), W: 1})
+
+		g.SetEdge(Edge{F: Node("5"), T: Node("1"), W: 1})
+		g.SetEdge(Edge{F: Node("6"), T: Node("1"), W: 1})
+		g.SetEdge(Edge{F: Node("7"), T: Node("1"), W: 1})
+		So(len(g.Edges()), ShouldEqual, 6)
+		So(g.Degree(Node("1")), ShouldEqual, 6)
+	})
+
+	Convey("get degree of node relationships for node that doesn't exist", t, func() {
+		g := NewDirectedGraph(1)
+		g.SetEdge(Edge{F: Node("1"), T: Node("2"), W: 1})
+		g.SetEdge(Edge{F: Node("1"), T: Node("3"), W: 1})
+		g.SetEdge(Edge{F: Node("1"), T: Node("4"), W: 1})
+
+		g.SetEdge(Edge{F: Node("5"), T: Node("1"), W: 1})
+		g.SetEdge(Edge{F: Node("6"), T: Node("1"), W: 1})
+		g.SetEdge(Edge{F: Node("7"), T: Node("1"), W: 1})
+		So(len(g.Edges()), ShouldEqual, 6)
+		So(g.Degree(Node("nothere")), ShouldEqual, 0)
+	})
+
+	Convey("get All the nodes in the graph", t, func() {
+		g := NewDirectedGraph(1)
+		g.SetEdge(Edge{F: Node("1"), T: Node("2"), W: 1})
+		g.SetEdge(Edge{F: Node("1"), T: Node("3"), W: 1})
+		g.SetEdge(Edge{F: Node("1"), T: Node("4"), W: 1})
+
+		g.SetEdge(Edge{F: Node("5"), T: Node("1"), W: 1})
+		g.SetEdge(Edge{F: Node("6"), T: Node("1"), W: 1})
+		g.SetEdge(Edge{F: Node("7"), T: Node("1"), W: 1})
+		n := g.Nodes()
+		So(len(n), ShouldEqual, 7)
 	})
 
 }
