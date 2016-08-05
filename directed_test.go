@@ -20,6 +20,15 @@ func TestDirectedGraph(t *testing.T) {
 		So(g.HasEdgeBetween(Node("3"), Node("4")), ShouldBeFalse)
 	})
 
+	Convey("Add same node multiple times doesn't panic", t, func() {
+		g := NewDirectedGraph(1)
+		g.AddNode(Node("1"))
+		g.AddNode(Node("1"))
+		g.AddNode(Node("1"))
+		g.AddNode(Node("1"))
+		So(len(g.nodes), ShouldEqual, 1)
+	})
+
 	Convey("Add and remove nodes validate edges", t, func() {
 		g := NewDirectedGraph(1)
 		g.SetEdge(Edge{F: Node("1"), T: Node("2"), W: 1})
