@@ -166,4 +166,17 @@ func TestDirectedGraph(t *testing.T) {
 		So(len(n), ShouldEqual, 7)
 	})
 
+	Convey("get To from Node", t, func() {
+		g := NewDirectedGraph(1)
+		g.SetEdge(Edge{F: Node("1"), T: Node("2"), W: 1})
+		g.SetEdge(Edge{F: Node("1"), T: Node("3"), W: 1})
+		g.SetEdge(Edge{F: Node("1"), T: Node("4"), W: 1})
+
+		g.SetEdge(Edge{F: Node("5"), T: Node("1"), W: 1})
+		g.SetEdge(Edge{F: Node("6"), T: Node("1"), W: 1})
+		g.SetEdge(Edge{F: Node("7"), T: Node("1"), W: 1})
+		n := g.To(Node("1"))
+		So(len(n), ShouldEqual, 3)
+	})
+
 }
