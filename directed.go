@@ -29,7 +29,7 @@ func NewDirectedGraph(weight float64) *DirectedGraph {
 // AddNode adds n to the graph. It panics if the added node ID matches an existing node ID.
 func (g *DirectedGraph) AddNode(n graph.Node) {
 	if _, exists := g.nodes[n.ID()]; exists {
-		panic(fmt.Sprintf("node ID already exists: %d", n.ID()))
+		return
 	}
 	g.nodes[n.ID()] = n
 	g.from[n.ID()] = make(map[string]graph.Edge)
